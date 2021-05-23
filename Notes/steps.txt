@@ -1,0 +1,10 @@
+1. Extract, clean and pre-process Data, revise, plot...
+2. Split DataSet
+3. Fit the model
+4. Predict/Score method
+5. Evaluation metrics
+
+3. K-NN -> memory based supervised learning.
+    4.1 Find the most similar instances.
+    4.2 Get the labels for the instances.
+    4.3 Predict the label of the label by combining the labels of the instances (simple majoriry vote).

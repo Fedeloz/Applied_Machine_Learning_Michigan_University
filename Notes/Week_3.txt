@@ -1,0 +1,76 @@
+1. Model Evaluation & Selection
+    - representation -> train model -> evaluation -> feature and model refinment
+    - datasets with imbalanced classes: 
+        - Score can be very high but still perform bad (Always predicting most common label).
+        - We can use DummieClassifier to compare scores.
+            - 'most_frequent', 'stratified' (random prediction based on class distributions), 'uniform', 'constant'.
+
+    1.1 concepts:
+        - accuracy = correcct predictions/total intances
+        - classification error: (FP+FN)/(FP+FN+TP+TN)
+        - Recall=TP/(TP+FN)
+            - True positive ratio (TPR), sensiivity, prob of detection.
+        - precision=TP/(TP+FP)
+        - False positive rate (FPR)=FP/(TN+FP)
+        - binary predictions outcomes (confusion matrix):
+        _____________________________________________________________
+        |    True        |       TN        |     FP                 |
+        |    negative    |                 |                        |
+        |________________|_________________|________________________|
+        |    True        |       FN        |     TP                 |
+        |    positive    |                 |                        |
+        |________________|_________________|________________________|
+        |                | pred. positive  | pred. negative         |
+        |________________|_________________|________________________|
+        - We can also have multi-class confusion matrix
+
+        - F1 score=2*precision*recall/(precision+recall) = 2TP/(2TP+FN+FP)
+            - F score(combine 2 into a single number).
+                - beta = 0.5 -> precision oriented.
+                - beta = 2 -> recall oriented.
+                - beta = 1 -> not oriented.
+                - decision treshold
+        - Receiver operating charasterictic (ROC):
+            - Area under the ROC curve (AUC).
+
+    1.2 Average:
+        - Macro-average:
+            - All the classes have the same weight no matter the number of objects of each one.
+            - better for smaller classes.
+        - Micro-average:
+            - We look at every object and compute the total average.
+            - better for larger classes.
+        - micro << macro -> larger classes have poor performance
+        - micro >> macro -> smaller classes have poor performance.
+
+    1.3 Regression metrics:
+        - r2_score is tipycally enough (Best = 1).
+        - mean_absolute_error.
+        - mean_squared_error.
+        - median_absolute_error (When ignoring outliers (Non tipycal data) is important).
+
+2. Model selection using evaluation metrics:
+    2.1 Train/test on the same data.
+    2.1 Single test/train split.
+    2.3 k-fold cross-validation.
+        from sklearn.metrics.scorer import SCORERS
+        print(sorted(list(SCORERS.keys())))
+
+        2.3.1 Use 3 data splits:
+            1. training set
+            2. validation set
+            3. test set
+        2.3.2 In practice:
+            1. initial training/test data split.
+            2. cross-validation on training data to do model and parameter selection.
+            3. save the held-out test set for final model evaluation.
+
+        2.3.3 Accuracy may not be the right evaluation metric for many ML tasks.
+            - FP and FN might need to be treated differently.
+
+    2.4 Additional evaluation methods:
+        - Learning curve -> see how the algorithm improves with the amount of training data.
+        - Sensitivity analysis -> How it changes with small adjustments on important model parameters.
+            - How robust the model is to the choice of parameters.
+
+REVISE ANSWERS 5 AND 6 OF THE ASSIGNMENT, I DID NOT UNDERSTAND THEM TOTALLY

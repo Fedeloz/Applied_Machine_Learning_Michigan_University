@@ -1,0 +1,38 @@
+1 K-NN
+    - Memory based supervised learning
+    - Doesn´t make a lot of assumptions about the structure of the data, accurate but sometimes unstable (Sensitive to small changes in data)
+    - Find most similar instances
+    - Get the labels y_NN for the instances X_NN
+    - Predicts the label for the x_test by comibing the labels, (Majority?)
+    - Easy to know why a prediction is made
+
+    1.1 Set the algorithm
+        Distance -> euclidean (Default p=2, euclidean)
+        How many nearest neighbours? -> (Default = 5)
+            k=1 -> 
+                - Good for individual points. 
+                - Decision boundary fragmented.
+                - Unstable, Sensitive to NOISE, misslabeled data, outlanders, variation.
+                - High complexity
+                - Overfit and worse accuracy
+
+            k>>1 -> 
+                - Less fragmented, smoother boundary, less detailed. 
+                - Low complexity.
+                - Bias variance trade off.
+                - Underfit, more accuracy.
+
+        Weighting function?
+        How to aggregate the class, simple majority vote?
+
+    1.2 fit -> Update internal state of the knn object. Produces a trained model.
+        Training id the process of estimating model parameters.
+        knn.fit(X_train, y_train)
+
+    1.3 evaluate -> knn.score(X_test, y_test)
+        -> Regression: r-squared regression score, coefficient of determination.
+    
+    1.4 predict -> knn.predict(measurements)
+
+
+

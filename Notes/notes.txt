@@ -1,0 +1,143 @@
+- input variables     -> independent variables (Features) (X)
+
+- outcome variables   -> dependent variables (Target value, label) (y)
+
+- if a scikit-learn object ends with an underscore (_) this means that these attributes were derived from training data, and not by the user.
+
+- Assumptions:
+    - Future test set will have the same properties than the trainning sets.
+    - Models that are accurate on the training set are expected to be accurate on the test set.
+
+- Overfitting:
+    - Good at predicting specific data samples or areas of local variation.
+    - Misses global patterns.
+    - Training set accuracy too high (Optimistic)
+    
+- Data is sparse:
+    - Each instance has a lot of features but most of them are zero.
+    - K-NN is not good for this.
+
+- Regularization:
+    - It is a way to prevent overfitting.
+    - Improve the generalization.
+    - Reduce the complexity of the model.
+    - Alpha parameter (20) >> -> AW coeff goes toward 0.
+    - L2 penalty is a sum of squares of all coefficients.
+    - Works well when you don´t have much data compared to the number of features in the model.
+
+- Normalization:
+    - All values between 0 and 1.
+    - Use min max scaling for both train and test data. If not -> Data leaked.
+
+- Split Data:
+    - 75%/25% training/test. Test Data is new but has the same properties (Distribution...).
+    - Cross-validation method -> Uses multiple train/tests splits.
+        - Gives more stable and reliable estimates.
+        - ej: 5-fold validation. (Default: cv= 3).
+        - Can see how sensitive the model is to the input data properties.
+        - leave-one-out cross validation for small datasets.
+        - Used to evaluate a model, not to learn or tune a new model.
+
+
+1. Classification and regression:
+
+    1. Binary classification
+        - target value is discrete
+
+        1.1 Logistic regression
+            - Regularization penalty on the model coefficients (C=1).
+                - C>> -> tries to fit the model better and has less regularization
+                - C<< -> tries to find more coefficient that are close to 0, more regularization. 
+
+        1.2 - Linear classifiers 
+            - Linear support vector machine (LSVM) -> maximum margin classifier.
+            - Simple, easy, fast, good for sparse data, good for large dataset (Only use support vectors, more efficience).
+            - Data might not be linearly separable, low dimension -> not generalizing well.
+            - Regularization parameter (C=1.0)
+                - C>> less regularization -> fits better, every point is important.
+                - C<< More tolerant of individual errors.
+            
+    2. Multi-Class classification:
+
+        2.1 K-NN classification
+
+        2.2 With linear models.
+            - More efficient.
+            - Only n_classes binary classifiers with different values and take the highest one.
+        
+        2.3 Kernelized support vector machine (SVMs):
+            - Can also be used for regression.
+            - Transform the input data space into a higher dimensional feature space (This is crazy).
+            - Radial Basis Function Kernel (RBF).
+            - Support vector machines (SVM).
+                - Good to normalize the features.
+                - Good in a range of datasets.
+                - Versatile.
+                - Work well for low and high dimensional data.
+                - Efficiency is a cons.
+                - Needs careful normalization of input data.
+                - Don´t provide direct probabilities for predictions.
+                - Difficult to interpret why a prediction was made.
+
+            - gamma -> how far the influence of a single trending example reaches.
+                gamma >> -> larger similarity radius.
+                    - (Points farther appart are considered similar -> More points in groups together and smoother boundaries)
+                gamma << -> More complex and tighly constrained decision boundaries.
+                    - C has no effect.
+                    - 0.01 < gamma < 10, 0.1 < C < 100
+            - C -> Regularization parameter (C=1.0)
+                - C>> less regularization -> fits better, every point is important.
+                - C<< More tolerant of individual errors.
+                
+            - Model complexity:
+                - kernel: Df -> radial basis function (rbf), other -> Polynomial.
+                    - Linear kernel can work better.
+                - kernel parameters: gamma -> RBF kernel width.
+                - C: Regularization parameter.
+                - Tipically C and gamma are tuned at the same time.
+
+        2.4 Decision trees:
+            - Learns explicit rules on feature values.
+            - To prevent overfitting we stop its growth early with pre-pruning.
+                - We can also build it and make it simpler with post-pruning.
+            - The intensity of the colour indicates the strength of the majority.
+            - Easily visualzed and interpreted.
+            - No normalization or scaling needed.
+            - Work well with mixtures of features (Categorical, numerical, continuous, binary...).
+            - Can overfit even after tuning.
+            - Usually needs an ensemble of trees for better generalization.
+            - Parameters:
+                - max_depth: Number of split points -> Reduce tree complexity and overfitting.
+                - min_samples_leaf: treshold for minimum number of data instances a leaf can have tu avoid further splitting.
+                - max_leaf_nodes: Number of leaves in the tree.
+                - In practice, adjusting only one of these parameters is enough to reduce overfitting.
+
+    3. Regression:  
+        - target value is continuous
+        - average the values
+        - The result is going to be a straight line in linear regression
+
+        3.1 K-NN Regression:
+            - Doesn´t make a lot of assumptions about the structure.
+            - Unstable and sensitive.
+
+        3.2 Linear model fit using ordinary least-squares (OLS):
+            - Make strong assumptions about the structure of the data.
+            - Stable but sometimes inaccurate predictions.
+            - Use a weihtly sum of the inputs.
+
+        3.3 Ridge regression:
+            - Same as least squared regression but during the trainning phase it adds a penalty for feature weights that are too large.
+            - Large: Sum of the squared values is large.
+            - Regularization
+            - Better if there a re a lot of variables that have a small or medium effect on the output variable.
+            - Overfitting: higher alpha.
+
+        3.4 Lasso Regression
+            - A lot of features are forced to be zero.
+            - Is good for models where only a few variables have a medium or large effect on the output variable.
+            - Most parsimonious model (accomplish the prediction desire with few predictor variables).
+
+        3.5 Polynomial 
+            - Little bit shit (Not even big shit).
+

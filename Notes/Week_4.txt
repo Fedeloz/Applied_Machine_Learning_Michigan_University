@@ -1,0 +1,146 @@
+1. Naive Bayes classifier:
+    - Based on prob models of how data in each class might have been generated.
+    - Assumption -> each feature of an instance is independent and have no correlation (That´s why is called Naive).
+        - Efficience.
+        - Generalization performance can be worse.
+        - Competitive in some tasks (HIGH DIMENSIONAL DATA).
+    - Classifier types:
+        - Bernouilli -> binary features (For text classification).
+        - Multinomial -> discrete features (For text classification).
+        - Gaussian -> Continuous/real-valued features.
+            - Each class follows a gaussian distribution.
+            - Computes mean and standart deviation.
+        - Huge dataset that doesn´t fit in the memory? -> partial_fit.
+        - No special parameters to control model complexity.
+    - Pros:
+        - Easy to understand, simple parameter estimation and efficient.
+        - Good for high dimensional data.
+        - Baseline comparation against other more sophisticated methods.
+    - Cons: 
+        - Assumes features are conditionally independents.
+        - Confidance estimate might not be very accurate.
+
+2. Random Forests:
+    - Ensemble -> Takes multiple individual learning models and combines them to produce more powerful aggregate model.
+        - Each individual model usually tends to overfit to a different part of the data.
+    - Creates lots of individual decision trees (tens or hundreds).
+        - Data used to build each decision tree is chosen randomly.
+            - Bootstrap sample.
+                - Picks repeatedly n samples of the original dataset.
+                - Final DataSet created can have missing and repeated data.
+        - Features chosen in each split tests are randomly chosen.
+        - Instead of taking the best split, takes randomly a subset and then finds the best split for that subset.
+    - Parameters
+        - n_estimator parameter (Default = 10) -> how many trees do you want to build.
+        - max_features parameter:
+            mf = 1 -> complex and diverse trees, reduces overfitting.
+            mf = number of features -> similar forests with simpler trees.
+        - max_depth (Default = none) -> depth for each tree.
+        - n_jobs -> How many cores to use in parallel during training, linear growth.
+        - random_state -> Choose this if you want to be able to reproduce your results.
+
+    - Pros:
+        - Excellent prediction performance on many problems.
+        - Doesn´t require careful normalization of features or parameter tuning.
+        - Handles a mixture of feature types (Like decision trees).
+        - Easily parallelizez across multiple CPUs.
+    - Cons:
+        - Difficult for humans to interpretate.
+        - Might not a good choice for very high dimensional tasks (Text classifier for example).
+
+3. Gradient boosted decision trees:
+    - Also uses an ensmeble of multiple trees.
+    - Each tree is trained to attempt to correct the previous tree mistakes.
+    - Parameters:
+        - Learning rate (Default = 0.1):
+            - Controls the enphasis of fixing errors.
+            - LR >> Each successive tree put strong enphasis on correcting the predecessor mistakes.
+                - More complex individual trees.
+            - LR << simpler trees at each step.
+                - Less model complexity.
+        - n_estimators (Default = 100) of small decision trees to use (weak learners).
+            - Increase it can lead to overfit.
+        - Two above are tipically tuned together.
+            - n_estimator is set to best exploit speed and memory capabilities, and then lr is adjusted afterwards.
+        - max_depth (Default = 3).
+            - Reduce it to reduce model complexity.
+            - Small (3-5) because it assumes that each tree is a weak learner.
+    - Pros: 
+        - Often best off-the-shelf accuracy on many problems.
+        - Requires modest memory and is fast.
+        - Doesn´t require careful normalization or feature tuning.
+        - Like decision trees, can handle mixures types of data.
+    - Cons: 
+        - Difficult to interpretate for humans.
+        - Careful tuning of Learning rate and other parameters.
+        - Not recomended for high dimensional sparce features problems (text classif) for accuarcy and computational cost reasons.
+
+3. Neural networks:
+    - Object classification, translation, gaming...
+    - Multi-layer perceptron (MLP).
+    - Parameters:
+        - hidden_layers_size (Default = 100):  
+            - Number of elements in a list and each list element.
+        - Alpha (default = 0.0001) -> regularization penalty that srinks weights to zero:
+            - a >>(5) -> Less complexity and underfit
+            - a <<(0.01) -> More complexity and overfit
+        - activation -> non linear function:
+            - relu (default) -> rectified linear unit function.
+            - tanh.
+            - logistic.
+        - solver -> finds the optimum weights.
+            - Default is good for thousands of training examples.
+            - Small datasets -> lbfgs tends to be faster.
+    - Pros:
+        - Can effectively capture complex features given enough data and computation.
+    - Cons:
+        - Larger, more complex models that require training data, time and customization.
+        - Careful preprocessing is needed.
+        - Good choice when features are similar types, but not on otherwise.    
+
+4. Neural networks:
+    - Feature engineering.
+    - Pros:
+        - Better than ML in difficult tasks
+        - Effective automatic feature extraction, reducing guesswork and finding good features.
+        - Fleible
+    - Cons:
+        - Need huge amount of data.
+        - Need huge amount of computing power.
+        - Must be built tailored of each specific application.
+        - Results are not easy to interpretate.
+    - Keras, lassagne, Tensorflow, Theano.
+        - Can use the GPUs, which are powerful for this.
+
+5. Data Leakage:
+    - Cause optimistic results.
+    - How to avoid it:
+        - Before:
+            - Explore data.
+            - Do very highly correalted features have label?
+        - After bulding the model:
+            - Look for surprising behavior.
+            - Features with veru high information weight or gain?
+    - Minimize it:
+        - Perform data preparation within each cross-validation fold separately.
+        - With time series data, use a timestamp cutoff.
+        - Before any work with a new dataset, split off a final test validation dataset.
+
+6. Unsupervised learning:
+    - Takes raw data and captures interesting structure in it.
+    - Complexe dataset, density estimations, clusters...
+    - No target values, labels...
+    - Types:
+        - Transformations.
+        - Clustering.
+    - Dimensionality reduction.
+        - Principal component analysis (PCA).
+
+    - Clustering (K-mean clustering):
+        - Inicialization:
+            - Pick number of clusters k that you want to to find (random k).
+        - Step A:
+            - Assign each data point to the nearest cluster center.
+        - Step B:
+            - Update each cluster center by replacing it with the mean of all points on the cluster.
+        - Repeat A and B until center converge to a stable solution.
